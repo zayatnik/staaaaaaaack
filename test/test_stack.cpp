@@ -55,3 +55,5 @@ TEST(stack, throws_when_delete_el_from_pust_stack) {
 	stack<int> s;
 	ASSERT_ANY_THROW(s.pop());
 }
+
+////
