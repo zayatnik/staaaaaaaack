@@ -2,7 +2,7 @@
 #pragma once 
 
 using namespace std;
-////////////////////////////////////////////////////стэк
+//////////////////////////////////////////////////стэк
 template<class t>
 class stack {
 	int r, rr;
@@ -13,7 +13,7 @@ public:
 	~stack();
 	void push(const t& el);
 	int size();
-	bool pust();
+	bool empty();
 	void pop();
 	const t& onthetop();
 	bool operator==(stack s);
@@ -51,14 +51,16 @@ void stack<t>::push(const t& el) {
 	if (r == rr) {
 		int i;
 		rr = r + r / 3;
-		t* b = new t[rr];
+		t* b = new t[r];
 		for (i = 0; i < r; i++)
 			b[i] = cont[i];
-		for (i = r; i < rr; i++)
-			b[i] = 0;
 		delete[] cont;
-		cont = b;
+		cont = new t[rr];
+		for (i = 0; i < r; i++)
+			cont[i] = b[i];
 		delete[] b;
+		for (i = r; i < rr; i++)
+			cont[i] = 0;
 		cont[r] = el;
 		r++;
 	}
@@ -74,7 +76,7 @@ int stack<t>::size() {
 }
 
 template<class t>
-bool stack<t>::pust() {
+bool stack<t>::empty() {
 	if (r == 0)
 		return true;
 	else return false;
@@ -82,17 +84,28 @@ bool stack<t>::pust() {
 
 template<class t>
 void stack<t>::pop() {
-	if (!(this->pust())) {
-		int i;
-		r--;
-		rr--;
-		t* v = new t[rr];
-		for (i = 0; i < r; i++)
-			v[i] = cont[i];
-		for (i = r; i < rr; i++)
-			v[i] = 0;
-		delete[] cont;
-		cont = v;
+	if (!(this->empty())) {
+		if ((r = rr / 3) && (r > 8)) {
+			int i;
+			rr = r * 2;
+			t* b = new t[r];
+			for (i = 0; i < r; i++)
+				b[i] = cont[i];
+			delete[] cont;
+			cont = new t[rr];
+			for (i = 0; i < r; i++)
+				cont[i] = b[i];
+			for (i = r; i < rr; i++)
+				cont[i] = 0;
+			delete[] b;
+			cont[r - 1] = 0;
+			r--;
+		}
+		else {
+			cont[r - 1] = 0;
+			r--;
+
+		}
 	}
 	else
 		throw "not correct";
@@ -100,7 +113,7 @@ void stack<t>::pop() {
 
 template<class t>
 const t& stack<t>::onthetop() {
-	if (this->pust())
+	if (this->empty())
 		throw "not correct";
 	else
 		return cont[r - 1];
