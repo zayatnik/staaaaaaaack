@@ -88,13 +88,11 @@ void stack<t>::pop() {
 		if ((r = rr / 3) && (r > 8)) {
 			int i;
 			rr = r * 2;
-			t* b = new t[r];
+			t* b = new t[rr];
 			for (i = 0; i < r; i++)
 				b[i] = cont[i];
 			delete[] cont;
-			cont = new t[rr];
-			for (i = 0; i < r; i++)
-				cont[i] = b[i];
+			cont = b;
 			for (i = r; i < rr; i++)
 				cont[i] = 0;
 			delete[] b;
