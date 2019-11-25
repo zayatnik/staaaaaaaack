@@ -152,7 +152,7 @@ stack<t>& stack<t>::operator=(const stack<t>& s) {
 	return *this;
 }
 
-/////////////////////////////очередь
+//////////////////////////////очередь
 
 class queue {
 private:
